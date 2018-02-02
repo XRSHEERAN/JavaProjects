@@ -12,7 +12,7 @@ for (int i = 0; i < words.size(); i ++) {
 ```
 
 ### 2.
-**A.** Resized three times; 70 more elements can be added.
+**A.** Resized three times; 69 more elements can be added.
 
 **B.** i*3^d (i times, 3 to the exponent of d)
 
