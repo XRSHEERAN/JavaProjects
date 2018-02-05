@@ -1,7 +1,7 @@
 
 import java.util.*;
 import java.io.*;
-
+import java.lang.*;
 public class InteractiveDBTester {
 	
 	// make the Employee database a static data member so it does not have to 
@@ -33,7 +33,7 @@ public class InteractiveDBTester {
                 String str=reader.nextLine();
                 if(str.length()==0)
                     break;
-                String[] templst=new str.split(",");
+                String[] templst=str.split(",");
 
                 EmployeeDB.addEmployee(templst[0].toLowerCase());
                 List<String> tempDst=EmployeeDB.getDestinations(templst[0].toLowerCase());
@@ -57,11 +57,26 @@ public class InteractiveDBTester {
      static boolean GUIactive;  //is GUI tester active?
 
 // Methods that implement GUI buttons or testing actions
-
+    private static String listConverter(String name,List<String> lst) {
+    	Iterator<String> ptr=lst.iterator();
+    	StringBuilder strbdr=new StringBuilder(name+":");
+    	
+    	while(ptr.hasNext()) {
+    		String temp=ptr.next();
+    		if(!(temp == null) && temp.equals(""))
+    			strbdr.append(temp+",");
+    	}
+    	strbdr.delete(strbdr.length()-1, strbdr.length());
+    	return strbdr.toString();
+    }
     protected static String pushFind(String employee){
        /* Code to implement find command goes here:
           Find the supplied employee in the employee database
        */
+    	if(EmployeeDB.containsEmployee(employee)) {
+    		return listConverter(employee, EmployeeDB.getDestinations(employee));
+    	}
+    	return "employee not found";
     }
 
     protected static String pushDiscontinue(String destination){
@@ -69,6 +84,7 @@ public class InteractiveDBTester {
           The supplied destination is removed from the wish lists
            of all employees in the employee database
        */
+    	
     }
 
     protected static String pushSearch(String destination){

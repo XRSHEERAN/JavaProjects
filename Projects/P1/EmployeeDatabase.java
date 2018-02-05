@@ -1,6 +1,4 @@
-import javax.swing.text.html.HTMLDocument;
 import java.util.*;
-import java.lang.*;
 public class EmployeeDatabase{
     //check null parameters!!!!!!!!!!!!
     private List<Employee> database;
@@ -19,8 +17,8 @@ public class EmployeeDatabase{
     }
 
     public EmployeeDatabase(){
-        database=new ArrayList();
-        names=new ArrayList();
+        database=new ArrayList<Employee>();
+        names=new ArrayList<String>();
     }
     public void addEmployee(String e){
         if(e==null)
@@ -100,7 +98,7 @@ public class EmployeeDatabase{
         if(!this.containsEmployee(e))
             return false;
         names.remove(e);
-        database.remove(this.getEmployees(e));
+        database.remove(this.empFinder(e));
         return true;
     }
     public boolean removeDestination(String d){
