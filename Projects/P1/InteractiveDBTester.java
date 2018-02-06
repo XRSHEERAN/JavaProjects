@@ -69,6 +69,21 @@ public class InteractiveDBTester {
     	strbdr.delete(strbdr.length()-1, strbdr.length());
     	return strbdr.toString();
     }
+    private double toTenth(double inp) {
+    	String con=inp+"";
+    	int ptr=0;
+    	while(con.charAt(ptr)!='.') {
+    		ptr++;
+    	}
+    	double ret=Double.parseDouble(con);
+    	if(ptr<con.length()-2) {
+    		if(con.charAt(ptr+2)>='5')
+    			ret=Double.parseDouble(con.substring(0, ptr+2))+0.1;
+    		else
+    			ret=Double.parseDouble(con.substring(0, ptr+2));
+    	}
+    	return ret;
+    }
     protected static String pushFind(String employee){
        /* Code to implement find command goes here:
           Find the supplied employee in the employee database
@@ -84,7 +99,10 @@ public class InteractiveDBTester {
           The supplied destination is removed from the wish lists
            of all employees in the employee database
        */
-    	
+    	if(!EmployeeDB.containsDestination(destination))
+    		return "destination not found";
+    	EmployeeDB.removeDestination(destination);
+    	return "destination discontinued";
     }
 
     protected static String pushSearch(String destination){
@@ -92,18 +110,55 @@ public class InteractiveDBTester {
            Search the employee database for all employees who have
             the supplied destination in their wish list
        */
+    	if(!EmployeeDB.containsDestination(destination))
+    		return "destination not found";//Or "destination not found."
+    	return listConverter(destination,EmployeeDB.getEmployees(destination));
     }
 
     protected static String pushRemove(String employee){
-       /* Code to implement remone command goes here:
+       /* Code to implement remove command goes here:
           Remove the supplied employee from the employee database
        */
+    	
     }
 
     protected static String pushInformation(){
        /* Code to implement information command goes here:
            Compute key information on the state of the employee database
        */
+    	//1.
+    	int emp=EmployeeDB.size();
+    	int dest;
+    	//2. info about list length
+    	int maxL=0;
+    	int minL=Integer.MAX_VALUE;
+    	int sumL=0;
+    	//3. the info about dest appearing lists
+    	int maxD=0;
+    	int minD=Integer.MAX_VALUE;
+    	int sumD=0;
+    	//4.most pop
+    	List<String> popHit=new ArrayList<String>();
+    	
+    	
+    	List<String> tbl=new ArrayList<String> ();
+    	Iterator<Employee> ptr= EmployeeDB.iterator();
+    	while(ptr.hasNext()) {
+    		Employee curr=ptr.next();
+    		List<String> tempDest=curr.getWishlist();
+    		Iterator<String> destptr=tempDest.iterator();
+    		while(destptr.hasNext()) {
+    			String dName=destptr.next();
+    			if(dName!=null && !dName.equals("") && !tbl.contains(dName))
+    				tbl.add(dName);
+    		}
+    	}
+    	dest=tbl.size();
+    	//2.
+    	
+    	
+    	
+    	int dest=
     }
 
     protected static String pushList(){
