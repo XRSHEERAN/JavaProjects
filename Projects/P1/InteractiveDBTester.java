@@ -136,7 +136,7 @@ public class InteractiveDBTester {
     	//3. the info about dest appearing lists
     	int maxD=0;
     	int minD=Integer.MAX_VALUE;
-    	int sumD=0;
+    	int countD=0;
     	//4.most pop
     	List<String> popHit=new ArrayList<String>();
     	
@@ -147,6 +147,10 @@ public class InteractiveDBTester {
     		Employee curr=ptr.next();
     		List<String> tempDest=curr.getWishlist();
     		Iterator<String> destptr=tempDest.iterator();
+		int ds=tempDest.size();
+		maxL=(maxL<ds)?ds:maxL;
+		minL=(minL>ds)?ds:minL;
+		sumL+=ds;
     		while(destptr.hasNext()) {
     			String dName=destptr.next();
     			if(dName!=null && !dName.equals("") && !tbl.contains(dName))
