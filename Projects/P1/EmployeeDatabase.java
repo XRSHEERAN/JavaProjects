@@ -1,96 +1,173 @@
 import java.util.*;
-public class EmployeeDatabase{
-    //check null parameters!!!!!!!!!!!!
+public class EmployeeDatabase {
     private List<Employee> database;
     private List<String> names;
     //use only one employee exists
     private Employee empFinder(String e){
         Iterator<Employee> ptr=this.database.iterator();
+        // create an iterator used to traverse all the data in database 
 
         while(ptr.hasNext()){
-            Employee temp=ptr.next();
-            if(temp.getUsername().equals(e))
-                return temp;
+            Employee temp=ptr.next(); //traverse through the entire database 
+            if(temp.getUsername().equals(e)) //search for matching username of e in the database 
+                return temp; //when found, return temp. 
         }
 
         throw new IllegalArgumentException();
     }
 
+    /**
+     * construct employee database
+     * 
+     * @param args UNUSED
+     */
     public EmployeeDatabase(){
-        database=new ArrayList<Employee>();
-        names=new ArrayList<String>();
+        database=new ArrayList<Employee>(); //create new database Arraylist using Employee object. 
+        names=new ArrayList<String>(); //create new names Arraylist using String object. 
     }
+    
+    /**
+     * add a new employee e to the end of the list, if contained just return.
+     * 
+     * @param e
+     */
     public void addEmployee(String e){
         if(e==null)
             throw new IllegalArgumentException();
-        e=e.toLowerCase();
-        if(names.contains(e))
-            return;
-        database.add(new Employee(e));
-        names.add(e);
+        e = e.toLowerCase(); //all that's contained in the database needs to be lower-cased. 
+        if(names.contains(e)) //check if names are already contained in the list. 
+            return; //if name contained, just return
+        database.add(new Employee(e)); //if not contained, add new employee parameter e. 
+        names.add(e); //pass string type e into the Arraylist.
     }
+    
+    /**
+     * add new destination d to the wish list for employee e
+     * if e doesn't exit in the list, throw java.lang.IllegalArgumentException
+     * if d is already on e's wish list just return
+     *  
+     * @param e
+     * @param d
+     */
     public void addDestination(String e, String d){
-        if(e==null || d==null)
-            throw new IllegalArgumentException();
-        d=d.toLowerCase();
+        if(e==null || d==null)  
+            throw new IllegalArgumentException(); //exception thrown if not found.
+        d=d.toLowerCase(); //all passed parameter needs to be lower-cased. 
         List<String> temp=empFinder(e).getWishlist();//throws illegal argument exception
-        if(!temp.contains(d))
-            temp.add(d);
+        if(!temp.contains(d)) 
+            temp.add(d); //add new destination if d not found in wishlist. 
     }
+    
+    /**
+     * search through the database and return true if employee e is in the database
+     * 
+     * @param e
+     * @return
+     */
     public boolean containsEmployee(String e){
-        if(e==null)
-            throw new IllegalArgumentException();
-        e=e.toLowerCase();
-        boolean ret=false;
-        if(names.contains(e))
-            return !ret;
+        if(e==null) 
+            throw new IllegalArgumentException(); 
+        e = e.toLowerCase();
+        boolean ret=false; 
+        if(names.contains(e)) //if names in the list, return true. 
+            return !ret; 
         return ret;
     }
+    
+    /**
+     * Return true if and only if destination d appears in at least one employee's wish list in the database.
+     * 
+     * @param d
+     * @return
+     */
     public boolean containsDestination(String d){
         if(d==null)
             throw new IllegalArgumentException();
         d=d.toLowerCase();
-        Iterator<Employee> destPtr=database.iterator();
+        Iterator<Employee> destPtr=database.iterator(); //create an iterator for searching through the 
+        												   //entire database
         while(destPtr.hasNext()){
-            Employee temp=destPtr.next();
-            if(temp.getWishlist().contains(d)) return true;
+            Employee temp = destPtr.next(); 
+            if(temp.getWishlist().contains(d)) return true; //return true if destination found 
+            												   //in current temp
         }
         return false;
     }
+    
+    /**
+     * Returns true if and only if destination d is in the wish list for employee e. 
+     * If employee e is not in the database, return false.
+     * 
+     * @param e
+     * @param d
+     * @return
+     */
     public boolean hasDestination(String e, String d){
-        if(e==null || d==null)
+        if(e==null || d==null) //check null 
             throw new IllegalArgumentException();
-        e=e.toLowerCase();
-        d=d.toLowerCase();
-        if(!names.contains(e) || !empFinder(e).getWishlist().contains(d))
+        e=e.toLowerCase(); //parameters need to be in lowercase.  
+        d=d.toLowerCase(); 
+        if(!names.contains(e) || !empFinder(e).getWishlist().contains(d)) //check if e is in the database
+        									//check if e contains d, return false if either one is not met. 
             return false;
         return true;
     }
+    
+    /**
+     * Return the list of employees who have destination d in their wish list. 
+     * If destination d is not in the database, return a null list.
+     * 
+     * @param d
+     * @return
+     */
     public List<String> getEmployees(String d){
         if(d==null)
             throw new IllegalArgumentException();
         d=d.toLowerCase();
-        if(!this.containsDestination(d))
+        if(!this.containsDestination(d)) //first, check if d is in the database, return null if not. 
             return null;
-        List<String> ret= new ArrayList<String>();
-        Iterator<String> ptr=names.iterator();
+        List<String> ret = new ArrayList<String>(); //create a string list for storing list of employees.
+        Iterator<String> ptr=names.iterator(); //create an iterator for traversing through the names 
         while(ptr.hasNext()){
-            String temp= ptr.next();
-            if(this.hasDestination(temp,d))
-                ret.add(temp);
+            String temp = ptr.next(); 
+            if(this.hasDestination(temp,d)) //check if destination d is in employee e's wishlist. 
+                ret.add(temp);//add e to the return list if true. 
         }
         return ret;
     }
+    
+    /**
+     * Return the wish list for the employee e. If an employee e is not in the database, return null.
+     * 
+     * @param e
+     * @return
+     */
     public List<String> getDestinations(String e){
-        if(e==null)
+        if(e==null) //check null
             throw new IllegalArgumentException();
-        e=e.toLowerCase();
-        if(!this.containsEmployee(e)) return null;
-        return empFinder(e).getWishlist();
+        e=e.toLowerCase(); 
+        if(!this.containsEmployee(e)) return null; //check if e in the list 
+        return empFinder(e).getWishlist(); //use iterator, return wishlist.
     }
+    
+    /**
+     * Return an Iterator over the Employee objects in the database. 
+     * The employees should be returned in the order they were added to the database 
+     * (resulting from the order in which they are in the text file).
+     * 
+     * @return
+     */
     public Iterator<Employee> iterator(){
         return database.iterator();
     }
+    
+    /**
+     * Remove employee e from the database. If employee e is not in the database, return false; 
+     * otherwise (i.e., the removal is successful) return true.
+     * 
+     * @param e
+     * @return
+     */
     public boolean removeEmployee(String e){
         if(e==null)
             throw new IllegalArgumentException();
@@ -101,20 +178,36 @@ public class EmployeeDatabase{
         database.remove(this.empFinder(e));
         return true;
     }
+    
+    /**
+     * Remove destination d from the database, i.e., remove destination d from every wish list 
+     * in which it appears. If destination d is not in the database, 
+     * return false; otherwise (i.e., the removal is successful) return true.
+     * 
+     * @param d
+     * @return
+     */
     public boolean removeDestination(String d){
         if(d==null)
             throw new IllegalArgumentException();
         d=d.toLowerCase();
-        if(!this.containsDestination(d))
+        if(!this.containsDestination(d)) //if destination is not contained in the database, return false. 
             return false;
         Iterator<Employee> ptr= database.iterator();
         while(ptr.hasNext()){
-            List<String> temp=ptr.next().getWishlist();
+            List<String> temp=ptr.next().getWishlist(); //go through the databse, and delete all d. 
             temp.remove(d);
         }
         return true;
     }
+    
+    /**
+     * Return the number of employees in this database.
+     * 
+     * @return
+     */
     public int size(){
         return names.size();
     }
+
 }
