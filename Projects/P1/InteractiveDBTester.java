@@ -69,7 +69,7 @@ public class InteractiveDBTester {
     	strbdr.delete(strbdr.length()-1, strbdr.length());
     	return strbdr.toString();
     }
-    private double toTenth(double inp) {
+    private static double toTenth(double inp) {
     	String con=inp+"";
     	int ptr=0;
     	while(con.charAt(ptr)!='.') {
@@ -119,7 +119,10 @@ public class InteractiveDBTester {
        /* Code to implement remove command goes here:
           Remove the supplied employee from the employee database
        */
-    	
+    	if(!EmployeeDB.containsEmployee(employee))
+    	   return "employee not found";
+    	EmployeeDB.removeEmployee(employee);
+    	return "employee removed";
     }
 
     protected static String pushInformation(){
@@ -129,14 +132,14 @@ public class InteractiveDBTester {
     	//1.
     	int emp=EmployeeDB.size();
     	int dest;
-    	//2. info about list length
+    	//3. info about list length
     	int maxL=0;
     	int minL=Integer.MAX_VALUE;
-    	int sumL=0;
+    	double sumL=0;
     	//3. the info about dest appearing lists
     	int maxD=0;
     	int minD=Integer.MAX_VALUE;
-    	int countD=0;
+    	double countD=0.0;
     	//4.most pop
     	List<String> popHit=new ArrayList<String>();
     	
@@ -148,27 +151,56 @@ public class InteractiveDBTester {
     		List<String> tempDest=curr.getWishlist();
     		Iterator<String> destptr=tempDest.iterator();
 		int ds=tempDest.size();
-		maxL=(maxL<ds)?ds:maxL;
+		maxL=(maxL<ds)?ds:maxL;//second
 		minL=(minL>ds)?ds:minL;
 		sumL+=ds;
     		while(destptr.hasNext()) {
     			String dName=destptr.next();
-    			if(dName!=null && !dName.equals("") && !tbl.contains(dName))
+    			if(dName!=null && !dName.equals("") && !tbl.contains(dName)){
+    			    countD++;
     				tbl.add(dName);
+    			}
     		}
     	}
-    	dest=tbl.size();
-    	//2.
+    	double numL=(double)EmployeeDB.size();
+    	double meanL=toTenth(sumL/numL);//result
+    	double meanD=toTenth(sumL/countD);//results of Dests
     	
+    	//third
+    	Iterator<String> ptrD=tbl.iterator();
+    	while(ptrD.hasNext()){
+    	    ptr=EmployeeDB.iterator();
+    	    int count=0;
+    	    String dtemp=ptrD.next();
+    	    while(ptr.hasNext()){
+    	       Employee temp=ptr.next();
+    	       if(EmployeeDB.hasDestination(temp.getUsername(),dtemp))
+    	           count++;
+    	    }
+    	       if(count>maxD)
+    	           maxD=count;
+    	       if(count<minD)
+    	           minD=count;
+    	}
+    	//dest mean
+    	double destN=(double)tbl.size();
+    	double empN=(double)EmployeeDB.size();
+        double result=toTenth(destN/empN);
+        return result+"";
     	
-    	
-    	int dest=
     }
 
     protected static String pushList(){
        /* Code to implement list command goes here:
           List the current contents of the employee database
        */
+      Iterator<Employee>ptr=EmployeeDB.iterator();
+      String ret="";
+      while(ptr.hasNext()){
+          Employee temp=ptr.next();
+          ret+=listConverter(temp.getUsername,temp.getWishlist())+"\n";
+      }
+      return ret;
     }
 
     // The pushHelp method may be used as is:
