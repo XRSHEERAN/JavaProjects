@@ -37,7 +37,9 @@ public class InteractiveDBTester {
 
                 EmployeeDB.addEmployee(templst[0].toLowerCase());
                 List<String> tempDst=EmployeeDB.getDestinations(templst[0].toLowerCase());
-                for(String i : templst){
+		Iterator<String> ptrD=tempDst.iterator();
+                for(ptrD.hasNext()){
+		    String i=ptrD.next();
                     if(i!=null && !i.equals(""))
                         tempDst.add(i.toLowerCase());
                 }
