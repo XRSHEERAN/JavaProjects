@@ -1,3 +1,33 @@
+///////////////////////////////////////////////////////////////////////////////
+//                   ALL STUDENTS COMPLETE THESE SECTIONS
+// Main Class File:  NA
+// File:             InteractiveDBTester.java
+// Semester:         (CS367) Spring 2018
+//
+// Author:           Xianrun (Sheeran) Qu (xqu25@wisc.edu
+// CS Login:         xianrun
+// Lecturer's Name:  Charles Fischer
+// Lab Section:      NA
+//
+//////////////////// PAIR PROGRAMMERS COMPLETE THIS SECTION ////////////////////
+//
+// Author:     		 Yiqiao (Bob) Xin
+// Email:            (email address of your programming partner)
+// CS Login:         (partner's login name)
+// Lecturer's Name:  (name of your partner's lecturer)
+// Lab Section:      (your partner's lab section number)
+//
+//////////////////// STUDENTS WHO GET HELP FROM OTHER THAN THEIR PARTNER //////
+//                   fully acknowledge and credit all sources of help,
+//                   other than Instructors and TAs.
+//
+// Persons:          Identify persons by name, relationship to you, and email.
+//                   Describe in detail the the ideas and help they provided.
+//
+// Online sources:   avoid web searches to solve your problems, but if you do
+//                   search, be sure to include Web URLs and description of 
+//                   of any information you find.
+//////////////////////////// 80 columns wide //////////////////////////////////
 import java.util.*;
 public class EmployeeDatabase {
     private List<Employee> database;
@@ -34,7 +64,7 @@ public class EmployeeDatabase {
     public void addEmployee(String e){
         if(e==null)
             throw new IllegalArgumentException();
-        e = e.toLowerCase(); //all that's contained in the database needs to be lower-cased. 
+        e = e.toLowerCase().trim(); //all that's contained in the database needs to be lower-cased. 
         if(names.contains(e)) //check if names are already contained in the list. 
             return; //if name contained, just return
         database.add(new Employee(e)); //if not contained, add new employee parameter e. 
@@ -52,7 +82,9 @@ public class EmployeeDatabase {
     public void addDestination(String e, String d){
         if(e==null || d==null)  
             throw new IllegalArgumentException(); //exception thrown if not found.
-        d=d.toLowerCase(); //all passed parameter needs to be lower-cased. 
+        d=d.toLowerCase().trim(); //all passed parameter needs to be lower-cased. 
+        e=e.toLowerCase().trim(); //all passed parameter needs to be lower-cased. 
+        
         List<String> temp=empFinder(e).getWishlist();//throws illegal argument exception
         if(!temp.contains(d)) 
             temp.add(d); //add new destination if d not found in wishlist. 
@@ -67,7 +99,7 @@ public class EmployeeDatabase {
     public boolean containsEmployee(String e){
         if(e==null) 
             throw new IllegalArgumentException(); 
-        e = e.toLowerCase();
+        e = e.toLowerCase().trim();
         boolean ret=false; 
         if(names.contains(e)) //if names in the list, return true. 
             return !ret; 
@@ -83,11 +115,13 @@ public class EmployeeDatabase {
     public boolean containsDestination(String d){
         if(d==null)
             throw new IllegalArgumentException();
-        d=d.toLowerCase();
-        Iterator<Employee> destPtr=database.iterator(); //create an iterator for searching through the 
+        d=d.toLowerCase().trim();
+        System.out.println(d);
+        Iterator<Employee> destPtr=this.database.iterator(); //create an iterator for searching through the 
         												   //entire database
         while(destPtr.hasNext()){
             Employee temp = destPtr.next(); 
+            System.out.println(temp.getWishlist().size());
             if(temp.getWishlist().contains(d)) return true; //return true if destination found 
             												   //in current temp
         }
@@ -105,8 +139,8 @@ public class EmployeeDatabase {
     public boolean hasDestination(String e, String d){
         if(e==null || d==null) //check null 
             throw new IllegalArgumentException();
-        e=e.toLowerCase(); //parameters need to be in lowercase.  
-        d=d.toLowerCase(); 
+        e=e.toLowerCase().trim(); //parameters need to be in lowercase.  
+        d=d.toLowerCase().trim(); 
         if(!names.contains(e) || !empFinder(e).getWishlist().contains(d)) //check if e is in the database
         									//check if e contains d, return false if either one is not met. 
             return false;
@@ -123,7 +157,7 @@ public class EmployeeDatabase {
     public List<String> getEmployees(String d){
         if(d==null)
             throw new IllegalArgumentException();
-        d=d.toLowerCase();
+        d=d.toLowerCase().trim();
         if(!this.containsDestination(d)) //first, check if d is in the database, return null if not. 
             return null;
         List<String> ret = new ArrayList<String>(); //create a string list for storing list of employees.
@@ -145,7 +179,7 @@ public class EmployeeDatabase {
     public List<String> getDestinations(String e){
         if(e==null) //check null
             throw new IllegalArgumentException();
-        e=e.toLowerCase(); 
+        e=e.toLowerCase().trim(); 
         if(!this.containsEmployee(e)) return null; //check if e in the list 
         return empFinder(e).getWishlist(); //use iterator, return wishlist.
     }
@@ -171,7 +205,7 @@ public class EmployeeDatabase {
     public boolean removeEmployee(String e){
         if(e==null)
             throw new IllegalArgumentException();
-        e=e.toLowerCase();
+        e=e.toLowerCase().trim();
         if(!this.containsEmployee(e))
             return false;
         names.remove(e);
@@ -190,7 +224,7 @@ public class EmployeeDatabase {
     public boolean removeDestination(String d){
         if(d==null)
             throw new IllegalArgumentException();
-        d=d.toLowerCase();
+        d=d.toLowerCase().trim();
         if(!this.containsDestination(d)) //if destination is not contained in the database, return false. 
             return false;
         Iterator<Employee> ptr= database.iterator();
