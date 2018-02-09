@@ -12,10 +12,10 @@
 //////////////////// PAIR PROGRAMMERS COMPLETE THIS SECTION ////////////////////
 //
 // Author:     Yiqiao (Bob) Xin
-// Email:            (email address of your programming partner)
-// CS Login:         (partner's login name)
-// Lecturer's Name:  (name of your partner's lecturer)
-// Lab Section:      (your partner's lab section number)
+// Email:            xin23@wisc.edu
+// CS Login:         yiqiao
+// Lecturer's Name:  Charles Fischer
+// Lab Section:      NA
 //
 //////////////////// STUDENTS WHO GET HELP FROM OTHER THAN THEIR PARTNER //////
 //                   fully acknowledge and credit all sources of help,
@@ -128,18 +128,26 @@ public class InteractiveDBTester {
    * @param inp: the number to round
    * @return rounded number
    */
- private static double toTenth(double inp) {
+ private static String toTenth(double inp) {
    String con = inp + ""; //convert to string
    int ptr = 0; //pointer for the decimal point
    while (con.charAt(ptr) != '.') {
     ptr++;
    }
-   double ret = inp; // the number to return
+   String ret = inp + ""; // the number to return
+
    if (ptr < con.length() - 2) { //if the double is more than tenth
-    if (con.charAt(ptr + 2) >= '5') //round by the hundredth
-     ret = Double.parseDouble(con.substring(0, ptr + 2)) + 0.1;
-    else
-     ret = Double.parseDouble(con.substring(0, ptr + 2));
+
+    if (con.charAt(ptr + 2) >= '5') { //round by the hundredth
+     if (con.charAt(ptr + 1) == '9') {
+      int inter = Integer.valueOf(con.substring(0, ptr)) + 1;
+      ret = "" + inter + ".0";
+     } else {
+      int inter = Character.getNumericValue(con.charAt(ptr + 1)) + 1;
+      ret = con.substring(0, ptr + 1) + inter;
+     }
+    } else
+     return con.substring(0, ptr + 2);
    }
    return ret;
   }
@@ -186,7 +194,6 @@ public class InteractiveDBTester {
        Search the employee database for all employees who have
         the supplied destination in their wish list
    */
-	 System.out.print(destination);
    if (!EmployeeDB.containsDestination(destination))
     return "destination not found"; //Or "destination not found."
    return listConverter(destination, EmployeeDB.getEmployees(destination));
@@ -255,9 +262,10 @@ public class InteractiveDBTester {
     }
    }
    double numL = (double) EmployeeDB.size();
-   double meanL = toTenth(sumL / numL); //result
-   double meanD = toTenth(sumL / countD); //results of Dests
+   String meanL = toTenth(sumL / numL); //result
+   String meanD = toTenth(sumL / countD); //results of Dests
    String ret1 = "Employees: " + EmployeeDB.size() + ", Destinations: " + tbl.size() + '\n';
+
    String ret2 = "# of destinations/employee: most " + maxL + ", least " + minL + ", average " + meanL + '\n';
    //third,go through destinations
    Iterator < String > ptrD = tbl.iterator();
