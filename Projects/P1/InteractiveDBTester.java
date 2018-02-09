@@ -80,7 +80,7 @@ public class InteractiveDBTester {
     //there is at least one destination as required
     for (int i = 1; i < templst.length; i++) {
      if (templst[i] != null && !templst[i].equals(""))
-      tempDst.add(templst[i]); //add the strings in file one by one
+      tempDst.add(templst[i].toLowerCase().trim()); //add the strings in file one by one
     }
    }
    reader.close();
@@ -186,6 +186,7 @@ public class InteractiveDBTester {
        Search the employee database for all employees who have
         the supplied destination in their wish list
    */
+	 System.out.print(destination);
    if (!EmployeeDB.containsDestination(destination))
     return "destination not found"; //Or "destination not found."
    return listConverter(destination, EmployeeDB.getEmployees(destination));
