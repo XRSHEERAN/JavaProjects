@@ -1,2 +1,7 @@
 # Java_Station
-A place working with JAVA Assignment
+Data Structure implementation.
+
+## HashTags
+* JAVA
+* Lists
+* Projects
