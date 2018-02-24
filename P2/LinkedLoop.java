@@ -86,6 +86,7 @@ class LinkedLoop<E> implements LoopADT<E>{
 
     @Override
     public Iterator<E> iterator() {
+        Iterator<E> ptr=new LinkedLoopIterator (head.getPrev());
         return null;
     }
 }

@@ -2,12 +2,14 @@ import java.util.*;
 import java.io.*;
 public class LinkedLoopIterator<E> implements Iterable<E>{
     private DblListnode<E> curr;
+    private DblListnode<E> head;
     public LinkedLoopIterator<E>(DblListnode<E> pass){
         this.curr=pass;
+        this.head=pass;
     }
     @Override
     public boolean hasNext(){
-        if(curr==null)
+        if(curr==null || curr==head)
             return false;
         return true;
     }
