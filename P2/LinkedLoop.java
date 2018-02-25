@@ -1,9 +1,8 @@
 import java.util.*;
 class LinkedLoop<E> implements LoopADT<E>{
     private DblListnode<E> curr=null;
-    private DblListnode<E> head=new DblListnode<E>(null);
     private int num=0;
-    public LinkedLoop(){
+    public LinkedLoop<E>(){
 
     }
     @Override
@@ -11,16 +10,25 @@ class LinkedLoop<E> implements LoopADT<E>{
         this.num++;
         if(curr==null){
             curr=new DblListnode<E>(item);
-            head.setPrev(curr);
+            curr.prev=curr;
+            curr.next=curr;//self-linked
             return;
         }
+        if(num==2){
+          DblListnode<E> temp=curr;
+          curr=new DblListnode<E>(item);
+          temp.setNext(curr);
+          temp.setPrev(curr);
+          curr.setNext(temp);
+          curr.setPrev(temp);
+          return;
+        }
+        DblListnode<E> temp=curr.getPrev();
         //add the item before
         curr.setPrev(new DblListnode<E>(item));//before current
-        DblListnode addee=curr.getPrev();//get new
-        addee.setNext(curr);//set next
-        curr=addee;//move curr
+        curr.getPrev().setNext(curr);
+        curr=curr.getPrev();
         //circular
-        DblListnode temp=head.getPrev();// the end of list
         temp.setNext(curr);
         curr.setPrev(temp);
     }
@@ -34,40 +42,38 @@ class LinkedLoop<E> implements LoopADT<E>{
 
     @Override
     public E removeCurrent() throws EmptyLoopException {
+      
         if(curr==null)
             throw new EmptyLoopException();
-        this.num--;
-        DblListnode<E> temp=head.getPrev();
-        if(curr==temp){
-            head.setPrev(null);
-            E data= curr.getData();
-            curr=null;
-            return data;
-        }
-
         E ret=curr.getData();// return data
-        curr=curr.getNext();
-        if(curr==temp) {
-            curr.setPrev(null);
-            curr.setNext(null);
+        this.num--;
+        
+        if(num==0)
+          curr=null;
+        else if(num==1){
+          curr=curr.getPrev();
+          curr.setNext(curr);
+          curr.setPrev(curr);
         }
         else{
-            temp.setNext(curr);
-            curr.setPrev(temp);
+        DblListnode<E> pre=curr.getPrev;
+        curr=curr.getNext();
+        pre.setNext(curr);
+        curr.setPrev(pre);
         }
         return ret;
     }
 
     @Override
     public void next() {
-        if(curr==null || curr.getNext()==null)
+        if(curr==null)
             return;
         curr=curr.getNext();
     }
 
     @Override
     public void previous() {
-        if(curr==null || curr.getPrev()==null)
+        if(curr==null)
             return;
         curr=curr.getPrev();
     }
