@@ -1,8 +1,8 @@
 import java.util.*;
-class LinkedLoop<E> implements LoopADT<E>{
+class LinkedLoop<E> implements LoopADT<E>, Iterable<E>{
     private DblListnode<E> curr=null;
     private int num=0;
-    public LinkedLoop<E>(){
+    public LinkedLoop(){
 
     }
     @Override
@@ -10,8 +10,8 @@ class LinkedLoop<E> implements LoopADT<E>{
         this.num++;
         if(curr==null){
             curr=new DblListnode<E>(item);
-            curr.prev=curr;
-            curr.next=curr;//self-linked
+            curr.setPrev(curr);
+            curr.setNext(curr);//self-linked
             return;
         }
         if(num==2){
@@ -56,7 +56,7 @@ class LinkedLoop<E> implements LoopADT<E>{
           curr.setPrev(curr);
         }
         else{
-        DblListnode<E> pre=curr.getPrev;
+        DblListnode<E> pre=curr.getPrev();
         curr=curr.getNext();
         pre.setNext(curr);
         curr.setPrev(pre);
@@ -92,7 +92,7 @@ class LinkedLoop<E> implements LoopADT<E>{
 
     @Override
     public Iterator<E> iterator() {
-        Iterator<E> ptr=new LinkedLoopIterator (head.getPrev());
-        return null;
+        LinkedLoopIterator<E> itrpar=new LinkedLoopIterator<E> (curr);
+        return itrpar;
     }
 }
