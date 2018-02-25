@@ -108,14 +108,41 @@ public class ImageLoopEditor {
     	return ret;
     }
 
-	  // add new image AFTER current image
-    static String pushAddImage(String filename){
+   static String pushAddImage(String filename){
             // Add code here to implement this GUI button
+    		Image picture = new Image(filename);
+    		// search through image folder.
+    		// add warning if file not found. 
+    		if (loop.isEmpty())
+	    		{
+	    		  loop.add(picture);
+	    		  return loop.getCurrent().toString(); //context
+	    		}
+    		else
+	    		{
+	    		  loop.next();
+	    		  loop.add(picture);
+	    		  return loop.getCurrent().toString(); //context
+	    		}
     }
 
 	  // insert new image BEFORE current image
     static String pushInsertImage(String filename){
             // Add code here to implement this GUI button
+		Image picture = new Image(filename);
+		// search through image folder.
+		// add warning if file not found. 
+		if (loop.isEmpty())
+    		{
+    		  loop.add(picture);
+    		  return loop.getCurrent().toString(); //context
+    		}
+		else
+    		{
+    		  loop.previous();
+    		  loop.add(picture);
+    		  return loop.getCurrent().toString(); //context
+    		}
     }
 
     static String pushJump(String count){
@@ -124,10 +151,29 @@ public class ImageLoopEditor {
 
     static String pushUpdate(String title){
             // Add code here to implement this GUI button
+    		if (loop.isEmpty())
+	    		{
+	    		  return "no images";
+	    		}
+    		else 
+	    		{
+    			  int time = Integer.parseInt(title);
+	    		  loop.getCurrent().setDuration(time);
+	    		  return loop.getCurrent().toString(); //context
+	    		}
     }
 
     static String pushEdit(String title){
             // Add code here to implement this GUI button
+    		if (loop.isEmpty())
+	    		{
+	    		  return "no images";
+	    		}
+    		else 
+	    		{
+    			  title = title.substring(1, title.length()-1);
+	    		  loop.getCurrent().setTitle(title); // may require changes.	
+	    		}
     }
 
     static String pushDisplay(){
@@ -145,16 +191,43 @@ public class ImageLoopEditor {
 
     static String pushRemove(){
             // Add code here to implement this GUI button
+    		if (loop.isEmpty())
+	    		{
+	    		  return "no images";
+	    		}
+    		else 
+	    		{
+	    		 	System.out.println(loop.getCurrent());
+	    		 	loop.removeCurrent();
+	    		 	if (loop.isEmpty())
+		    		 	{
+		    		 	  System.out.println("no images");
+		    		 	}
+	    		}
+    		loop.next();
+    		return loop.getCurrent().toString(); //context
     }
 
 
     static String pushForward(){
             // Add code here to implement this GUI button
+    		if (loop.isEmpty())
+    			return "no images";
+    		else {
+    			loop.next();
+    			return loop.getCurrent().toString(); //context
+    		}
     }
 
 
     static String pushBack(){
             // Add code here to implement this GUI button
+    		if (loop.isEmpty())
+			return "no images";
+		else {
+			loop.previous();
+			return loop.getCurrent().toString(); //context
+		}
     }
 
 
