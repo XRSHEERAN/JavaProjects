@@ -92,7 +92,7 @@ class LinkedLoop<E> implements LoopADT<E>, Iterable<E>{
 
     @Override
     public Iterator<E> iterator() {
-    	System.out.println(curr.toString());
+    	//System.out.println(curr.toString());
         LinkedLoopIterator<E> itrpar=new LinkedLoopIterator<E> (curr);
         return itrpar;
     }
