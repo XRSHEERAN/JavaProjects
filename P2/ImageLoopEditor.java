@@ -1,3 +1,33 @@
+///////////////////////////////////////////////////////////////////////////////
+//                   ALL STUDENTS COMPLETE THESE SECTIONS
+// Title:  	     ImageLoopEditor.java
+// File:             ImageLoopEditor.java
+// Semester:         (CS367) Spring 2018
+//
+// Author:           Xianrun (Sheeran) Qu (xqu25@wisc.edu
+// CS Login:         xianrun
+// Lecturer's Name:  Charles Fischer
+// Lab Section:      NA
+//
+//////////////////// PAIR PROGRAMMERS COMPLETE THIS SECTION ////////////////////
+//
+// Author:           Yiqiao (Bob) Xin
+// Email:            xin23@wisc.edu
+// CS Login:         yiqiao
+// Lecturer's Name:  Charles Fischer
+// Lab Section:      NA
+//
+//////////////////// STUDENTS WHO GET HELP FROM OTHER THAN THEIR PARTNER //////
+//                   fully acknowledge and credit all sources of help,
+//                   other than Instructors and TAs.
+//
+// Persons:          Identify persons by name, relationship to you, and email.
+//                   Describe in detail the the ideas and help they provided.
+//
+// Online sources:   avoid web searches to solve your problems, but if you do
+//                   search, be sure to include Web URLs and description of 
+//                   of any information you find.
+//////////////////////////// 80 columns wide //////////////////////////////////
 import java.io.*;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
@@ -14,6 +44,14 @@ import javax.swing.*;
 public class ImageLoopEditor {
 
 	protected static LoopADT<Image> loop = new LinkedLoop<Image>();
+	
+	/**
+ * Helper class, update the current node to desired position
+ *
+ * @param The desired destination
+ * @return NA
+ */
+
 	private static void moveCurr(Image dest) {
 		try {
 		while(loop.getCurrent()!=dest) {
@@ -23,6 +61,13 @@ public class ImageLoopEditor {
 			System.out.println("moveCurr");
 		}
 	}
+	
+	/**
+ * Helper class, display the context in the requirement
+ *
+ * @param display the context, with nimg as current
+ * @return the display string
+ */
 	private static String getContext(Image img) {
 		String ret="";
 		
@@ -50,7 +95,12 @@ public class ImageLoopEditor {
     	}
 		return ret;
 	}
-
+/**
+ * find and update image
+ *
+ * @param the title to find
+ * @return display string of function
+ */
    // Methods that implement the GUI buttons' actions, quotes attention
     static String pushFind(String title){
             // Add code here to implement this GUI button
@@ -74,7 +124,12 @@ public class ImageLoopEditor {
     	
     	return ret;
     }
-
+/**
+ * save current list to file
+ *
+ * @param the saved filename
+ * @return display string of function
+ */
     static String pushSave(String filename){
             // Add code here to implement this GUI button
     	if(loop.isEmpty())
@@ -102,7 +157,12 @@ public class ImageLoopEditor {
     	}
     	return ret;
     }
-
+/**
+ * load images to loop
+ *
+ * @param the file to load
+ * @return display string of function
+ */
     static String pushLoad(String filename){
             // Add code here to implement this GUI button
     	//System.out.println("in");
@@ -147,7 +207,12 @@ public class ImageLoopEditor {
     	}
     	return ret;
     }
-
+/**
+ * add the image after current
+ *
+ * @param the name of image file
+ * @return display string of function
+ */
 	  // add new image AFTER current image
     static String pushAddImage(String filename){
             // Add code here to implement this GUI button
@@ -169,7 +234,12 @@ public class ImageLoopEditor {
     		return "addimage fault";
     	}
     }
-
+/**
+ * insert the image to previous
+ *
+ * @param the image to insert
+ * @return display string of function
+ */
 	  // insert new image BEFORE current image
     static String pushInsertImage(String filename){
             // Add code here to implement this GUI button
@@ -219,7 +289,12 @@ try {
     		return "invalid, jump";
     	}
     }
-
+/**
+ * update time
+ *
+ * @param the time to update
+ * @return display string of function
+ */
     static String pushUpdate(String title){
             // Add code here to implement this GUI button
     	if (loop.isEmpty())
@@ -240,7 +315,12 @@ try {
     	
     }
     
-
+/**
+ * edit the current title
+ *
+ * @param the title to update
+ * @return display string of function
+ */
     static String pushEdit(String title){
             // Add code here to implement this GUI button
     	if (loop.isEmpty())
@@ -256,7 +336,12 @@ else {
 	}
 }
     }
-
+/**
+ * show the list
+ *
+ * @param NA
+ * @return display string of function
+ */
     static String pushDisplay(){
             // Add code here to implement this GUI button
     	if(loop.isEmpty())
@@ -270,7 +355,12 @@ else {
     	}
     	return ret.trim();
     }
-
+/**
+ * display current image
+ *
+ * @param NA
+ * @return display string of function
+ */
     static String pushShow(){
             // Add code here to implement this GUI button
     	if(loop.isEmpty())
@@ -284,7 +374,12 @@ else {
     	return "";
     }
 
-
+/**
+ * show the current images in list
+ *
+ * @param NA
+ * @return display string of function
+ */
     static String pushTest(){
             // Add code here to implement this GUI button
     	if(loop.isEmpty())
@@ -296,7 +391,12 @@ else {
     	Image.displayImageList(imglst);
     	return "";
     }
-
+/**
+ * remove the current image
+ *
+ * @param the title to find
+ * @return display string of function
+ */
     static String pushRemove(){
             // Add code here to implement this GUI button
     	if(loop.isEmpty() || loop.size()==1)
