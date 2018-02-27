@@ -38,13 +38,11 @@ public class ImageLoopEditor {
     		} 
     		else {
     			loop.previous();
-    			ret="\t"+loop.getCurrent().toString();
+    			ret='\t'+loop.getCurrent().toString()+"\n";
     			loop.next();
-    			ret+="--> "+img.toString()+" <--\n";
+    			ret+="--> \t"+img.toString()+" <--\n";
     			loop.next();
-    			ret+="\t"+loop.getCurrent().toString()+"\n";
-    			loop.next();
-    			ret+="\t"+loop.getCurrent().toString()+"\n";
+    			ret+='\t'+loop.getCurrent().toString()+"\n";
     			loop.previous();
     		}
     	}catch(Exception e) {
@@ -92,8 +90,10 @@ public class ImageLoopEditor {
     		while(itr.hasNext()) {
     			Image img=itr.next();
     			String ititle=(img.getTitle()==null)?"":img.getTitle();
-        		sum=img.getFile()+" "+img.getDuration()+" "+ititle+"\n";
+        		sum+=img.getFile()+" "+img.getDuration()+" \""+ititle+"\"\n";
     		}
+    		if(sum.length()!=0)
+    			sum=sum.substring(0, sum.length()-1);
     		PrintStream fw=new PrintStream(new FileOutputStream(fl));
     		fw.append(sum.trim());
     		fw.close();
@@ -105,6 +105,7 @@ public class ImageLoopEditor {
 
     static String pushLoad(String filename){
             // Add code here to implement this GUI button
+    	//System.out.println("in");
     	String ret="";
     	try {
     		File src = new File(filename); //source file
@@ -127,19 +128,22 @@ public class ImageLoopEditor {
     			}catch(Exception e) {
     				return "number format,Load";
     			}
-    			String ttl=temp.substring(templst[0].length()+templst[1].length()+1);
+    			String ttl=temp.substring(templst[0].length()+templst[1].length());
     			ttl=(ttl.length()==1)? "" : ttl.substring(1);
+    			ttl=ttl.trim();
+    			if(ttl.length()>=2 && ttl.charAt(0)=='\"' && ttl.charAt(ttl.length()-1)=='\"')
+    				ttl=ttl.substring(1, ttl.length()-1);
     			Image img=new Image(templst[0],ttl,dur);
     			tbl.add(img);
     		}
     		reader.close();//end of reading
-    		
+    		//System.out.println("cool man");
     		//put image items in order
     		for(int i = tbl.size()-1;i>=0;i--) {
     			loop.add(tbl.get(i));
     		}
     	}catch(Exception e) {
-    		return "unable to load";
+    		//System.out.println( "unable to load, Load :" + e.toString());
     	}
     	return ret;
     }
@@ -150,7 +154,7 @@ public class ImageLoopEditor {
     	File tempf=new File("images",filename);
     	if(!tempf.exists())
     		return 	"Warning: "+filename+" is not in images folder" ;
-    	Image addee= new Image(filename,null,5);
+    	Image addee= new Image(filename,"",5);
     	if(loop.isEmpty()) {
     		
     		loop.add(addee);
@@ -158,7 +162,6 @@ public class ImageLoopEditor {
     	else {
     		loop.next();
     		loop.add(addee);
-    		loop.previous();//back to current
     	}
     	try {
     	return getContext(loop.getCurrent());
@@ -173,7 +176,7 @@ public class ImageLoopEditor {
     	File tempf=new File("images",filename);
     	if(!tempf.exists())
     		return 	"Warning: "+filename+" is not in images folder" ;
-    	Image addee= new Image(filename,null,5);
+    	Image addee= new Image(filename,"",5);
 if(loop.isEmpty()) {
     		
     		loop.add(addee);
@@ -193,13 +196,14 @@ try {
     	if(loop.isEmpty())
     		return "no images";
     	int ct=0;
+    	Boolean forw;
     	try {
     		ct=Integer.parseInt(count.trim());
+        	forw=(ct>0)?true:false;
     		ct=(ct>0)?ct : (-1*ct);
     	}catch(Exception e) {
     		return "invalid input, jump";
     	}
-    	Boolean forw=(ct>0)?true:false;
     	
     	while(ct>0) {
     		if(forw)
@@ -286,8 +290,10 @@ else {
     	if(loop.isEmpty())
     		return "no images";
     	Iterator<Image> itr=loop.iterator();
+    	List<Image> imglst=new ArrayList<Image>();
     	while(itr.hasNext())
-    		itr.next().displayImage();
+    		imglst.add(itr.next());
+    	Image.displayImageList(imglst);
     	return "";
     }
 
