@@ -2,7 +2,10 @@
 Data Structure implementation.
 
 ## Author
-* Me, Xianrun Qu
+* Me, Xianrun Qu (all Codes, review & test)
+
+## Partner
+* @95bxin Yiqiao Bob Xin (some review & test)
 
 ## HashTags
 * JAVA
