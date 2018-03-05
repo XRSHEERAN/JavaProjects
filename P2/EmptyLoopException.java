@@ -8,15 +8,6 @@
 // CS Login:         xianrun
 // Lecturer's Name:  Charles Fischer
 // Lab Section:      NA
-//
-//////////////////// PAIR PROGRAMMERS COMPLETE THIS SECTION ////////////////////
-//
-// Author:           Yiqiao (Bob) Xin
-// Email:            xin23@wisc.edu
-// CS Login:         yiqiao
-// Lecturer's Name:  Charles Fischer
-// Lab Section:      NA
-//
 //////////////////// STUDENTS WHO GET HELP FROM OTHER THAN THEIR PARTNER //////
 //                   fully acknowledge and credit all sources of help,
 //                   other than Instructors and TAs.
