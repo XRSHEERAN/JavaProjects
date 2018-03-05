@@ -1,6 +1,9 @@
 # Java_Station
 Data Structure implementation.
 
+## Author
+* Me, Xianrun Qu
+
 ## HashTags
 * JAVA
 * Lists
