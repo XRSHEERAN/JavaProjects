@@ -1,10 +1,15 @@
-public boolean isBinary( Treenode<T> n ){
-  if(n==null || n.getChildren().size()==0){
-    return ture;
-  }
-  List<TreeNode<T>> tbl=n.getChildren();
-  if(tbl.length==1 || tbl.size()>2){
-    return flase;
-  }
-  return (isBinary(tbl.get(0)) && isBinary(tbl.get(1)));
+public boolean isBinary(Treenode n) {
+			if(n==null || n.getChildren().size()==0) {
+				return true;
+			}
+			boolean result=false;
+			List<Treenode<T>> treelst=n.getChildren();
+			if(treelst.size()>2)
+				return false;
+			for(Treenode<T> t : treelst) {
+				if(!isBinary(t)) {
+					return false;
+				}
+			}
+			return true;
 }
