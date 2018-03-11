@@ -28,5 +28,14 @@ public boolean isBinary(Treenode n) {
 ```
 * Pb
 ```
-
+public static List<Integer> findNegatives(BinaryTreenode<Integer> n){
+			if(n==null)
+				return new ArrayList<Integer>();
+			List<Integer> tbl=new ArrayList<Integer>();
+			if(n.getData()<0)
+				tbl.add(n.getData());
+			tbl.addAll(findNegatives(n.getLeft()));
+			tbl.addAll(findNegatives(n.getRight()));
+			return tbl;
+		}
 ```
