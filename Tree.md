@@ -8,7 +8,9 @@ public boolean isBinary(Treenode n) {
 			List<Treenode<T>> treelst=n.getChildren();
 			if(treelst.size()>2)
 				return false;
-			for(Treenode<T> t : treelst) {
+			Iterator<Treenode<T>> itr=treelst.iterator();
+			while(itr.hasNext()) {
+				Treenode<T> t=itr.next();
 				if(!isBinary(t)) {
 					return false;
 				}
