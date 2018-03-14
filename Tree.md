@@ -39,3 +39,31 @@ public static List<Integer> findNegatives(BinaryTreenode<Integer> n){
 			return tbl;
 		}
 ```
+## 3.
+```
+public K secondSmallest(BSTnode<K> n) {
+			if(n==null)
+				return null;
+			BSTnode<K> lft=n.getLeft(),rt=n.getRight();
+			if(lft==null && rt==null)
+				return null;
+			if(lft!=null) {
+				if(lft.getLeft()==null && lft.getRight()==null) {
+					return n.getKey();
+				}
+				else
+					return secondSmallest(n.getLeft());
+			}
+			else {
+				if(rt.getLeft()==null) {
+					return rt.getKey();
+				}
+				else {
+					lft=rt.getLeft();
+					while(lft.getLeft()!=null)
+						lft=lft.getLeft();
+					return lft.getKey();
+				}
+			}
+		}
+```
