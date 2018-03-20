@@ -19,13 +19,30 @@ public class BSTDictionaryIterator<K> implements Iterator<K> {
     // to next() returns the value in the node with the smallest key.
     // (You can use the Java API Stack or implement your own Stack - if you
     // implement your own, make sure to hand it in.)
-
+    private Stack<BSTnode<K>> stk;
+    public BSTDictionaryIterator(BSTnode<K> root){
+        stk=new Stack<BSTnode<K>>();
+        while(root!=null){
+            stk.push(root);
+            root=root.getLeft();
+        }
+    }
     public boolean hasNext() {
-        return false;  // replace this stub with your code
+        return !stk.isEmpty();  // replace this stub with your code
     }
 
     public K next() {
-        return null;  // replace this stub with your code
+          // replace this stub with your code
+        BSTnode<K> curr=stk.pop();
+        K ret=curr.getKey();
+        if(curr.getRight()!=null){
+            curr=curr.getRight();
+            while(curr!=null){
+                stk.push(curr);
+                curr=curr.getLeft();
+            }
+        }
+        return ret;
     }
 
     public void remove() {

@@ -14,7 +14,7 @@ public class KeyWord implements Comparable<KeyWord>,Prioritizable {
     @Override
     public boolean equals(Object o){
         KeyWord comp=(KeyWord) o;
-        if(key==comp.getWord())
+        if(key.equals(comp.getWord()))
             return true;
         return false;
     }

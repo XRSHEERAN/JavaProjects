@@ -24,10 +24,45 @@ public class WordCloudGenerator {
         DictionaryADT<KeyWord> dictionary = new BSTDictionary<KeyWord>();  
 
         // Check the command-line arguments and set up the input and output
-        
-        /////////////////////
-        // ADD YOUR CODE HERE
-        ///////////////////// 
+        if(args.length!=4){
+        	System.out.println("Four arguments required: inputFileName outputFileName ignoreFileName maxWords");
+        	System.exit(0);
+		}
+		try {
+        	File src0=new File(args[0]);
+        	if(!src0.exists()){
+        		System.out.println("Error: cannot access file "+args[0]);
+        		System.exit(0);
+			}
+			in = new Scanner(src0);
+		}catch (Exception e){
+			System.out.println("Error: cannot access file "+args[0]);
+			System.exit(0);
+		}
+		try {
+        	File src1=new File(args[2]);
+        	if(!src1.exists()){
+        		System.out.println("Error: cannot access file "+args[2]);
+        		System.exit(0);
+			}
+			inIgnore = new Scanner(src1);
+		}catch (Exception e){
+			System.out.println("Error: cannot access file "+args[2]);
+			System.exit(0);
+		}
+		int maxWords=0;
+		try{
+        	maxWords=Integer.parseInt(args[3]);
+		}
+		catch (Exception e){
+			System.out.println("Error: maxWords must be a positive integer");
+			System.exit(0);
+		}
+		if(maxWords<=0){
+			System.out.println("Error: maxWords must be a positive integer");
+			System.exit(0);
+		}
+
 
         // Create the dictionary of words to ignore
         // You do not need to change this code.
@@ -47,14 +82,16 @@ public class WordCloudGenerator {
         while (in.hasNext()) {
             String line = in.nextLine();
             List<String> words = parseLine(line);
-
-            ////////////////////////////////////////
-            // REPLACE THE CODE BELOW WITH YOUR CODE
-            for (String word : words)
-                out.print(word + " | ");
-            out.println();
-            ////////////////////////////////////////
-
+			for(String w : words){
+				if(ignore.lookup(w)==null){
+					try{
+						dictionary.insert(new KeyWord(w));
+					}
+					catch (Exception e){
+						dictionary.lookup(new KeyWord(w)).increment();
+					}
+				}
+			}
         } // end while
 
         
@@ -69,7 +106,8 @@ public class WordCloudGenerator {
         //   the appropriate length
         // - Generate the html output file
         ////////////////////////////////////////////////////////////
-        
+        System.out.println("# keys: "+dictionary.size()+"\navg path length: "+(dictionary.totalPathLength()/dictionary.size())+"\navg path length: "+(dictionary.size()+1)/2);
+
 
         // Close everything
         if (in != null) 
