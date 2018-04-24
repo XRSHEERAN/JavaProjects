@@ -28,6 +28,20 @@ public class ComparisonSort {
      */
     public static <E extends Comparable<E>> void selectionSort(E[] A) {
         // TODO: implement this sorting algorithm
+        E min;
+        int len=A.length, minInd=0;
+        for(int k=0; k<len; k++){
+            min=A[k];
+            minInd=k;
+            for(int j=k+1; j<len; j++){
+                if(A[j].compareTo(min)<0){
+                    min=A[j];
+                    minInd=j;
+                }
+            }
+            A[j]=A[k];
+            A[k]=min;
+        }
     }
 
     /**
