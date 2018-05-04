@@ -4,7 +4,7 @@ public static boolean hasSelfCycle( Graphnode<T> node ){
     n.setVisitMark(true);
     for (Graphnode<T> m : n.getSuccessors()) {
         if (m.getVisitMark()) {
-            return true;;
+            return true;
         }
         else
           hasSelfCycle(m);
@@ -24,3 +24,9 @@ public static boolean hasSelfCycle( Graphnode<T> node ){
 | S:0 G:4 R:10 H:11 | (11,P), (30,A) |
 | S:0 G:4 R:10 H:11 P:11 | (13,A) |
 | S:0 G:4 R:10 H:11 P:11 A:13 |
+
+# 3.
+
+1. C D A E F B
+2. A C D E F B
+3. C A D E F B
