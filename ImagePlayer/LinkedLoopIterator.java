@@ -59,7 +59,7 @@ public class LinkedLoopIterator < E > implements Iterator < E > {
      */
     @Override
     public boolean hasNext() {
-        if (curr == null || (curr == head && !fst))
+        if (curr == null || (curr == head && !fst))//check if the whole loop is visited
             return false;
 
         return true;

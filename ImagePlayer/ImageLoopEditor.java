@@ -29,7 +29,6 @@
 //                   of any information you find.
 //////////////////////////// 80 columns wide //////////////////////////////////
 import java.io.*;
-import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.*;
 import java.awt.event.*;
@@ -54,6 +53,7 @@ public class ImageLoopEditor {
 
     private static void moveCurr(Image dest) {
         try {
+        	//move the curr pointer until the desired node
             while (loop.getCurrent() != dest) {
                 loop.next();
             }
@@ -72,15 +72,15 @@ public class ImageLoopEditor {
         String ret = "";
 
         try {
-            if (loop.size() == 1)
-                ret = "--> " + img.toString() + " <--\n";
+            if (loop.size() == 1)//Case 1, there is only one item
+                ret = "\t--> " + img.toString() + " <--\n";
 
-            else if (loop.size() == 2) {
-                ret = "--> " + img.toString() + " <--\n";
+            else if (loop.size() == 2) {//case 2, there are 2
+                ret = "\t--> " + img.toString() + " <--\n";
                 loop.next();
                 ret += "\t" + loop.getCurrent().toString() + "\n";
                 loop.previous();
-            } else {
+            } else {//case 3, more than 3
                 loop.previous();
                 ret = '\t' + loop.getCurrent().toString() + "\n";
                 loop.next();
@@ -103,12 +103,12 @@ public class ImageLoopEditor {
     // Methods that implement the GUI buttons' actions, quotes attention
     static String pushFind(String title) {
         // Add code here to implement this GUI button
-        if (title.length() > 1 && (title.charAt(0) == '\"' || title.charAt(0) == '\"'))
+        if (title.length() > 1 && (title.charAt(0) == '\"' || title.charAt(0) == '\"'))//remove the quotes
             title = title.substring(1, title.length());
 
         if (loop.isEmpty())
             return "no images";
-        Iterator < Image > itr = loop.iterator();
+        Iterator < Image > itr = loop.iterator();//go from the current
         Image img = null;
         while (itr.hasNext()) {
             img = itr.next();
@@ -137,14 +137,14 @@ public class ImageLoopEditor {
         try {
             File fl = new File(filename);
             if (fl.exists())
-                ret = "warning: file already exists, will be overwritten";
+                ret = "warning: file already exists, will be overwritten"; //check the filename
 
             Iterator < Image > itr = loop.iterator();
             String sum = "";
             while (itr.hasNext()) {
                 Image img = itr.next();
                 String ititle = (img.getTitle() == null) ? "" : img.getTitle();
-                sum += img.getFile() + " " + img.getDuration() + " \"" + ititle + "\"\n";
+                sum += img.getFile() + " " + img.getDuration() + " \"" + ititle + "\"\n";//put the titles in desired formats
             }
             if (sum.length() != 0)
                 sum = sum.substring(0, sum.length() - 1);
@@ -171,13 +171,15 @@ public class ImageLoopEditor {
             if (!src.exists())
                 return "unable to load";
 
-            Scanner reader = new Scanner(src);
+            
+            
             loop = new LinkedLoop < Image > ();
             List < Image > tbl = new ArrayList < Image > (); //store image item
+            Scanner reader = new Scanner(src);
             while (reader.hasNextLine()) {
                 String temp = reader.nextLine().trim();
                 String[] templst = temp.split(" ");
-                File tempf = new File("images", templst[0]);
+                File tempf = new File("images", templst[0]);//the filename should appear on the first slot
                 if (!tempf.exists()) {
                     return "Warning: " + templst[0] + " is not in images folder";
                 }
@@ -187,21 +189,24 @@ public class ImageLoopEditor {
                 } catch (Exception e) {
                     return "number format,Load";
                 }
-                String ttl = temp.substring(templst[0].length() + templst[1].length());
+                String ttl = temp.substring(templst[0].length() + templst[1].length());//the rest of word should be the title
                 ttl = (ttl.length() == 1) ? "" : ttl.substring(1);
                 ttl = ttl.trim();
-                if (ttl.length() >= 2 && ttl.charAt(0) == '\"' && ttl.charAt(ttl.length() - 1) == '\"')
+                if (ttl.length() >= 2 && ttl.charAt(0) == '\"' && ttl.charAt(ttl.length() - 1) == '\"')//remove quotes
                     ttl = ttl.substring(1, ttl.length() - 1);
                 Image img = new Image(templst[0], ttl, dur);
                 tbl.add(img);
             }
             reader.close(); //end of reading
+            
             //System.out.println("cool man");
             //put image items in order
             for (int i = tbl.size() - 1; i >= 0; i--) {
                 loop.add(tbl.get(i));
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
+        
             //System.out.println( "unable to load, Load :" + e.toString());
         }
         return ret;
@@ -217,7 +222,7 @@ public class ImageLoopEditor {
         // Add code here to implement this GUI button
         File tempf = new File("images", filename);
         if (!tempf.exists())
-            return "Warning: " + filename + " is not in images folder";
+            return "Warning: " + filename + " is not in images folder";//check if the file is actually there
         Image addee = new Image(filename, "", 5);
         if (loop.isEmpty()) {
 
@@ -266,7 +271,7 @@ public class ImageLoopEditor {
         Boolean forw;
         try {
             ct = Integer.parseInt(count.trim());
-            forw = (ct > 0) ? true : false;
+            forw = (ct > 0) ? true : false;//check moving forward/backward
             ct = (ct > 0) ? ct : (-1 * ct);
         } catch (Exception e) {
             return "invalid input, jump";
@@ -340,7 +345,7 @@ public class ImageLoopEditor {
         Iterator < Image > imglst = loop.iterator();
         //System.out.println(imglst.hasNext());
         while (imglst.hasNext()) {
-            ret += imglst.next().toString() + "\n";
+            ret += imglst.next().toString() + "\n";//add each image
             //System.out.println("here in");
         }
         return ret.trim();
@@ -356,7 +361,7 @@ public class ImageLoopEditor {
         if (loop.isEmpty())
             return "no images";
         try {
-            loop.getCurrent().displayImage();
+            loop.getCurrent().displayImage();//display the current image
         } catch (Exception e) {
             return "fault in Show";
         }
@@ -377,7 +382,7 @@ public class ImageLoopEditor {
         List < Image > imglst = new ArrayList < Image > ();
         while (itr.hasNext())
             imglst.add(itr.next());
-        Image.displayImageList(imglst);
+        Image.displayImageList(imglst);//go through all the images
         return "";
     }
     /**

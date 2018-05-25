@@ -1,3 +1,34 @@
+///////////////////////////////////////////////////////////////////////////////
+//                   ALL STUDENTS COMPLETE THESE SECTIONS
+// Title:  	         WordCloudGenerator.java
+// File:             WordCloudGenerator.java
+// Semester:         (CS367) Spring 2018
+//
+// Author:           Xianrun (Sheeran) Qu (xqu25@wisc.edu
+// CS Login:         xianrun
+// Lecturer's Name:  Charles Fischer
+// Lab Section:      NA
+//
+//////////////////// PAIR PROGRAMMERS COMPLETE THIS SECTION ////////////////////
+//
+// Author:           Yiqiao (Bob) Xin
+// Email:            xin23@wisc.edu
+// CS Login:         yiqiao
+// Lecturer's Name:  Charles Fischer
+// Lab Section:      NA
+//
+//////////////////// STUDENTS WHO GET HELP FROM OTHER THAN THEIR PARTNER //////
+//                   fully acknowledge and credit all sources of help,
+//                   other than Instructors and TAs.
+//
+// Persons:          Identify persons by name, relationship to you, and email.
+//                   Describe in detail the the ideas and help they provided.
+//
+// Online sources:   avoid web searches to solve your problems, but if you do
+//                   search, be sure to include Web URLs and description of
+//                   of any information you find.
+//////////////////////////// 80 columns wide //////////////////////////////////
+
 import java.util.*;
 import java.io.*;
 
@@ -62,7 +93,12 @@ public class WordCloudGenerator {
 			System.out.println("Error: maxWords must be a positive integer");
 			System.exit(0);
 		}
+		try {
+            out= new PrintStream(new FileOutputStream(new File(args[1])));
+        }
+		catch (Exception e){
 
+        }
 
         // Create the dictionary of words to ignore
         // You do not need to change this code.
@@ -74,7 +110,7 @@ public class WordCloudGenerator {
                 // if there is a duplicate, we'll just ignore it
             }
         }
-        
+
         // Process the input file line by line
         // Note: the code below just prints out the words contained in each
         // line.  You will need to replace that code with code to generate
@@ -83,12 +119,12 @@ public class WordCloudGenerator {
             String line = in.nextLine();
             List<String> words = parseLine(line);
 			for(String w : words){
-				if(ignore.lookup(w)==null){
+				if(ignore.lookup(w.toLowerCase())==null){
 					try{
-						dictionary.insert(new KeyWord(w));
+						dictionary.insert(new KeyWord(w.toLowerCase()));
 					}
 					catch (Exception e){
-						dictionary.lookup(new KeyWord(w)).increment();
+						dictionary.lookup(new KeyWord(w.toLowerCase())).increment();
 					}
 				}
 			}
@@ -106,9 +142,27 @@ public class WordCloudGenerator {
         //   the appropriate length
         // - Generate the html output file
         ////////////////////////////////////////////////////////////
+
+		if(dictionary.size()==0)
+			System.exit(0);
         System.out.println("# keys: "+dictionary.size()+"\navg path length: "+(dictionary.totalPathLength()/dictionary.size())+"\navg path length: "+(dictionary.size()+1)/2);
+        Iterator<KeyWord> itr=dictionary.iterator();
+        ArrayHeap<KeyWord> pq=new ArrayHeap<>(dictionary.size()+1);
+        while(itr.hasNext()){
+            KeyWord k=itr.next();
+            pq.insert(k);
+        }
+        BSTDictionary<KeyWord> lst=new BSTDictionary<>();
+        while(maxWords>0 && pq.size()>0){
+            try{
+                lst.insert(pq.removeMax());
+                maxWords--;
+            }
+            catch (Exception e){
 
-
+            }
+        }
+        generateHtml(lst,out);
         // Close everything
         if (in != null) 
             in.close();
@@ -250,7 +304,7 @@ public class WordCloudGenerator {
         // Find the minimum and maximum values in the collection of words
         int min = Integer.MAX_VALUE, max = 0;
         for (KeyWord word : words) {
-            int occur = word.getOccurrences();
+            int occur = word.getPriority();
             if (occur > max)
                 max = occur;
             if (occur < min)
@@ -264,7 +318,7 @@ public class WordCloudGenerator {
         
         for (KeyWord word : words) {
             
-            int index = chooseStyle(word.getOccurrences(), colors.length, max, min);
+            int index = chooseStyle(word.getPriority(), colors.length, max, min);
             
 	    if (simpleDisplay) {
             	out.print("<span class=\"style");
@@ -556,12 +610,12 @@ class KeyWord2 implements Comparable<KeyWord2> {
      * Constructs a KeyWord with the given word (converted to lower-case) 
      * and zero occurences.  If the word is null or an empty string, an 
      * IllegalArgumentException is thrown.
-     * @param word the word for this KeyWord
+     * @param: word the word for this KeyWord
      * @throws IllegalArgumentException if word is null or empty
      */
      public KeyWord2(KeyWord w) {
-	word = w.word;
-	style = w.occur;
+	word = w.getWord();
+	style = w.getPriority();
      }
     
      public KeyWord2(String w, int style) {

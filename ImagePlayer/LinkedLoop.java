@@ -50,7 +50,7 @@ class LinkedLoop < E > implements LoopADT < E > , Iterable < E > {
             curr.setNext(curr); //self-linked
             return;
         }
-        if (num == 2) {
+        if (num == 2) {//link the only two nodes
             DblListnode < E > temp = curr;
             curr = new DblListnode < E > (item);
             temp.setNext(curr);
@@ -96,7 +96,7 @@ class LinkedLoop < E > implements LoopADT < E > , Iterable < E > {
 
         if (num == 0)
             curr = null;
-        else if (num == 1) {
+        else if (num == 1) {//self-linked
             curr = curr.getPrev();
             curr.setNext(curr);
             curr.setPrev(curr);
