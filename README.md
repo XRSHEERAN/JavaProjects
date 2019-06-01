@@ -11,4 +11,5 @@
 * [Heap](https://github.com/XRSHEERAN/Java_Station/tree/master/Heap): My heap implemented with shadow array
 * [MyHashtable](https://github.com/XRSHEERAN/Java_Station/tree/master/MyHashtable): Implementation of hashing and O(1) operations
 * [Sorts](https://github.com/XRSHEERAN/Java_Station/tree/master/Sorts): basic sorts (selection, quick, merge, insertion, heap) and a class for sorting. Pretty comprehensive and helpful.
-
+* [Linear Regression](https://github.com/XRSHEERAN/JavaProjects/tree/master/LinearRegression): Java Implementation of Linear Regression
+* [Artificial Neural Network](https://github.com/XRSHEERAN/JavaProjects/tree/master/ArtificialNeuralNet): Java Implementation of NN
