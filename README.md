@@ -3,7 +3,7 @@
 
 #### Author: Me (Xianrun Qu)
 
-#### Partner: Helped with testing but did not code or debug.
+#### Goal: Present my coding projects :)
 
 ## List of Projects
 * [Employee DB](https://github.com/XRSHEERAN/Java_Station/tree/master/EmployeeDb): Using ArrayList to implement a Database GUI that can store the name and business trips of a company.
